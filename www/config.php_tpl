@@ -1,0 +1,12 @@
+<?php
+require_once "vendor/autoload.php";
+//require_once 'vendor/adodb/adodb-php/adodb.inc.php';
+//
+//$dbHostname = "db";
+//$dbUsername = "root";
+//$dbPassword = "test";
+//$dbName = "myDb";
+//$driver = 'mysqli';
+//$saveResultsToDatabase = true;
+
+$filesPath = dirname(__FILE__) . "/files/";
