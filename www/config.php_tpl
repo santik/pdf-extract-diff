@@ -9,4 +9,4 @@ require_once "vendor/autoload.php";
 //$driver = 'mysqli';
 //$saveResultsToDatabase = true;
 
-$filesPath = dirname(__FILE__) . "/files/";
+$filesPath = dirname(__FILE__) . "/";

@@ -1,6 +1,5 @@
 {
   "require": {
-    "league/csv": "^9.5",
     "adodb/adodb-php": "^5.21",
     "smalot/pdfparser": "^2.1",
     "jfcherng/php-diff": "^6.10"

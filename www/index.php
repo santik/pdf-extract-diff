@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 require_once "config.php";
 
 use Jfcherng\Diff\DiffHelper;
-use League\Csv\Writer;
+use Jfcherng\Diff\Factory\RendererFactory;
 use PdfTools\PdfTools;
 use Smalot\PdfParser\Parser;
 
@@ -13,9 +13,7 @@ print_r("Starting pdf compare app \n");
 
 $file1 = $argv[1];
 $file2 = $argv[2];
-$file1 = "file1.pdf";
-$file2 = "file2.pdf";
-print_r("Compairing files : $file1 and $file2 \n");
+print_r("Comparing files : $file1 and $file2 \n");
 
 $parser = new Parser();
 $pdf1    = $parser->parseFile($filesPath . $file1);
@@ -25,14 +23,22 @@ $pdfTools = new PdfTools();
 
 $rendererName = "Json";
 $differOptions = [
-    // show how many neighbor lines
-    // Differ::CONTEXT_ALL can be used to show the whole file
     'context' => 3,
     'ignoreCase' => true,
     'ignoreWhitespace' => true,
 ];
+$rendererOptions = [
+    'detailLevel' => 'line',
+    'language' => 'eng',
+    'lineNumbers' => false,
+    'separateBlock' => true,
+    'showHeader' => true,
+    'spacesToNbsp' => false,
+    'tabSize' => 4,
+    'resultForIdenticals' => null,
+    'wrapperClasses' => ['diff-wrapper'],
+];
 $cleanText1 = $pdfTools->cleanText($pdf1->getText());
-//print_r($cleanText1); exit;
 $cleanText2 = $pdfTools->cleanText($pdf2->getText());
 $result = DiffHelper::calculate(
     $cleanText1,
@@ -40,13 +46,11 @@ $result = DiffHelper::calculate(
     $rendererName, $differOptions);
 
 $jsonResult = json_decode($result, true);
-$jsonResult = $pdfTools->removeEquals($jsonResult);
-$jsonResult = $pdfTools->removeEqualsInserts($jsonResult);
+$htmlRenderer = RendererFactory::make('Inline', $rendererOptions);
+$htmlResult = "<style>" . "\n" . DiffHelper::getStyleSheet() . "\n" . "</style>";
+$htmlResult = $htmlResult . $htmlRenderer->renderArray($jsonResult);
 
-print_r($jsonResult);exit;
-
-$filename = "search_" . $file1 . $file2 . ".csv";
+$filename = "diff_" . current(explode(".", $file1)) . "_" . current(explode(".", $file2)) . ".html";
 print_r("Writing results to the file $filename \n");
-file_put_contents($filename, $csv);
-
+file_put_contents($filename, $htmlResult);
 print_r("Stopping application \n");
