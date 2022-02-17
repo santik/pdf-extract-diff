@@ -8,6 +8,8 @@ use Jfcherng\Diff\DiffHelper;
 use League\Csv\Writer;
 use PdfTools\PdfTools;
 use Smalot\PdfParser\Parser;
+use PdfTools\DBTools;
+
 
 print_r("Starting pdf compare app \n");
 
@@ -16,6 +18,8 @@ $file2 = $argv[2];
 //$file1 = "file1.pdf";
 //$file2 = "file2.pdf";
 print_r("Comparing files : $file1 and $file2 \n");
+
+$dbTools = new DBTools($db);
 
 $parser = new Parser();
 $pdf1 = $parser->parseFile($filesPath . $file1);
@@ -55,10 +59,19 @@ $csv = Writer::createFromString();
 $csv->insertOne($header);
 $csvData = [];
 foreach ($jsonResult as $item) {
-    $csvData[] = [
+    $oldNew = [
         "old" => implode(" ", $item['old']['lines']),
         "new" => implode(" ", $item['new']['lines'])
     ];
+    $csvData[] = $oldNew;
+
+    $dbData = $oldNew;
+    $dbData['file1'] = $file1;
+    $dbData['file2'] = $file2;
+
+    if ($saveResultsToDatabase) {
+        $dbTools->insert('differences', $dbData);
+    }
 }
 $csv->insertAll($csvData);
 

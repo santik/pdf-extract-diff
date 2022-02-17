@@ -1,12 +1,15 @@
 <?php
 require_once "vendor/autoload.php";
-//require_once 'vendor/adodb/adodb-php/adodb.inc.php';
-//
-//$dbHostname = "db";
-//$dbUsername = "root";
-//$dbPassword = "test";
-//$dbName = "myDb";
-//$driver = 'mysqli';
-//$saveResultsToDatabase = true;
+require_once 'vendor/adodb/adodb-php/adodb.inc.php';
+
+$dbHostname = "db";
+$dbUsername = "root";
+$dbPassword = "test";
+$dbName = "myDb";
+$driver = 'mysqli';
+$saveResultsToDatabase = true;
+
+$db = newAdoConnection($driver);
+$db->connect($dbHostname, $dbUsername, $dbPassword, $dbName);
 
 $filesPath = dirname(__FILE__) . "/";

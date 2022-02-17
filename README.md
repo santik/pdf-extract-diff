@@ -16,5 +16,5 @@ Set the path where you will put PDF files to compare details and DB details in `
 To save results in database flag `$saveResultsToDatabase` should be set to `true`.  
 Database schema could be found in `dump/myDb.sql`  
 Run the command  
-`php index.php file1.pdf file2.pdf`
+`php index.php file1.pdf file2.pdf`  
 Result will be written in json and csv file in the same directory.

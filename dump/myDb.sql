@@ -8,21 +8,12 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 
-CREATE TABLE `twitter` (
-                          `id` varchar(125) NOT NULL,
-                          `name` varchar(100) NOT NULL,
-                          `screen_name` varchar(100) NOT NULL,
-                          `location` varchar(255) NOT NULL,
-                          `description` text NOT NULL,
-                          `url` varchar(255) NOT NULL,
-                          `followers_count` int(10) NOT NULL,
-                          `friends_count` int(10) NOT NULL,
-                          `listed_count` int(10) NOT NULL,
-                          `created_at` text NOT NULL,
-                          `favourites_count` int(10) NOT NULL,
-                          `statuses_count` int(10) NOT NULL,
-                           `verified` varchar(255) NOT NULL,
-                            `last_active` varchar(255) NOT NULL
+CREATE TABLE `differences` (
+                          `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                          `file1` varchar(100) NOT NULL,
+                          `file2` varchar(100) NOT NULL,
+                          `old` text NOT NULL,
+                          `new` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
